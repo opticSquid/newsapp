@@ -13,19 +13,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
-import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,9 +28,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.newsapp.R
 import com.example.newsapp.data.Result
 import com.example.newsapp.data.posts.impl.BlockingFakePostsRepository
+import com.example.newsapp.data.posts.impl.post1
 import com.example.newsapp.data.posts.impl.post3
 import com.example.newsapp.model.Post
 import com.example.newsapp.ui.theme.NewsAppTheme
@@ -56,7 +47,6 @@ import kotlinx.coroutines.runBlocking
  * Stateless Article Screen that displays a single post adapting the UI to different screen sizes.
  *
  * @param post (state) item to display
- * @param showNavigationIcon (state) if the navigation icon should be shown
  * @param onBack (event) request navigate back
  * @param isFavorite (state) is this item currently a favorite
  * @param onToggleFavorite (event) request that this post toggle it's favorite state
@@ -97,17 +87,14 @@ fun ArticleScreen(
             // Show the bottom bar if the screen is not expanded
             bottomBarContent = {
                 if (!isExpandedScreen) {
-                    BottomAppBar(
-                        actions = {
-                            FavoriteButton(onClick = { showUnimplementedActionDialog = true })
-                            BookmarkButton(isBookmarked = isFavorite, onClick = onToggleFavorite)
-                            ShareButton(onClick = { sharePost(post, context) })
-                            TextSettingsButton(onClick = { showUnimplementedActionDialog = true })
-                        }
-                    )
+                    BottomAppBar(actions = {
+                        FavoriteButton(onClick = { showUnimplementedActionDialog = true })
+                        BookmarkButton(isBookmarked = isFavorite, onClick = onToggleFavorite)
+                        ShareButton(onClick = { sharePost(post, context) })
+                        TextSettingsButton(onClick = { showUnimplementedActionDialog = true })
+                    })
                 }
-            },
-            lazyListState = lazyListState
+            }, lazyListState = lazyListState
         )
     }
 }
@@ -133,11 +120,11 @@ private fun ArticleScreenContent(
         topBar = {
             TopAppBar(
                 title = post.publication?.name.orEmpty(),
+                logoURL = post.publication?.logoUrl.orEmpty(),
                 navigationIconContent = navigationIconContent,
                 scrollBehavior = scrollBehavior
             )
-        },
-        bottomBar = bottomBarContent
+        }, bottomBar = bottomBarContent
     ) { innerPadding ->
         PostContent(
             post = post,
@@ -154,6 +141,7 @@ private fun ArticleScreenContent(
 @Composable
 private fun TopAppBar(
     title: String,
+    logoURL: String,
     navigationIconContent: @Composable () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior?,
     modifier: Modifier = Modifier
@@ -161,13 +149,23 @@ private fun TopAppBar(
     CenterAlignedTopAppBar(
         title = {
             Row {
-                Image(
-                    painter = painterResource(id = R.drawable.icon_article_background),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .size(36.dp)
-                )
+                val logoModifier = Modifier
+                    .clip(CircleShape)
+                    .size(36.dp)
+                if (logoURL != "") {
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current).data(logoURL).crossfade(true).build(),
+                        placeholder = painterResource(id = R.drawable.icon_article_background),
+                        contentDescription = "$title logo", modifier = logoModifier
+                    )
+                } else {
+                    Image(
+                        painter = painterResource(id = R.drawable.icon_article_background),
+                        contentDescription = null,
+                        modifier = logoModifier
+                    )
+                }
+
                 Text(
                     text = stringResource(R.string.published_in, title),
                     style = MaterialTheme.typography.labelLarge,
@@ -188,20 +186,16 @@ private fun TopAppBar(
  */
 @Composable
 private fun FunctionalityNotAvailablePopup(onDismiss: () -> Unit) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        text = {
-            Text(
-                text = stringResource(id = R.string.article_functionality_not_available),
-                style = MaterialTheme.typography.bodyLarge
-            )
-        },
-        confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text(text = stringResource(id = R.string.close))
-            }
+    AlertDialog(onDismissRequest = onDismiss, text = {
+        Text(
+            text = stringResource(id = R.string.article_functionality_not_available),
+            style = MaterialTheme.typography.bodyLarge
+        )
+    }, confirmButton = {
+        TextButton(onClick = onDismiss) {
+            Text(text = stringResource(id = R.string.close))
         }
-    )
+    })
 }
 
 /**
@@ -218,8 +212,7 @@ fun sharePost(post: Post, context: Context) {
     }
     context.startActivity(
         Intent.createChooser(
-            intent,
-            context.getString(R.string.article_share_post)
+            intent, context.getString(R.string.article_share_post)
         )
     )
 }
@@ -231,7 +224,7 @@ fun sharePost(post: Post, context: Context) {
 fun PreviewArticleDrawer() {
     NewsAppTheme {
         val post = runBlocking {
-            (BlockingFakePostsRepository().getPost(post3.id) as Result.Success).data
+            (BlockingFakePostsRepository().getPost(post1.id) as Result.Success).data
         }
         ArticleScreen(post, false, {}, false, {})
     }
@@ -239,9 +232,7 @@ fun PreviewArticleDrawer() {
 
 @Preview("Article screen navrail", device = Devices.PIXEL_C)
 @Preview(
-    "Article screen navrail (dark)",
-    uiMode = UI_MODE_NIGHT_YES,
-    device = Devices.PIXEL_C
+    "Article screen navrail (dark)", uiMode = UI_MODE_NIGHT_YES, device = Devices.PIXEL_C
 )
 @Preview("Article screen navrail (big font)", fontScale = 1.5f, device = Devices.PIXEL_C)
 @Composable

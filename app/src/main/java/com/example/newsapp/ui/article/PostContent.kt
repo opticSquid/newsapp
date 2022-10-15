@@ -3,31 +3,12 @@ package com.example.newsapp.ui.article
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material3.ColorScheme
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.Typography
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,13 +34,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.newsapp.R
-import com.example.newsapp.data.posts.impl.post3
-import com.example.newsapp.model.Markup
-import com.example.newsapp.model.MarkupType
-import com.example.newsapp.model.Metadata
-import com.example.newsapp.model.Paragraph
-import com.example.newsapp.model.ParagraphType
-import com.example.newsapp.model.Post
+import com.example.newsapp.data.posts.impl.post1
+import com.example.newsapp.model.*
 import com.example.newsapp.ui.theme.NewsAppTheme
 
 private val defaultSpacerSize = 16.dp
@@ -332,7 +308,7 @@ private val ColorScheme.codeBlockBackground: Color
 fun PreviewPost() {
     NewsAppTheme {
         Surface {
-            PostContent(post = post3)
+            PostContent(post = post1)
         }
     }
 }

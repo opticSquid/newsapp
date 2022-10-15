@@ -139,7 +139,8 @@ fun PostCardHistory(post: Post, navigateToArticle: (String) -> Unit) {
         ) {
             Text(
                 text = stringResource(id = R.string.home_post_based_on_history),
-                style = MaterialTheme.typography.labelMedium
+                style = MaterialTheme.typography.labelMedium,
+                color=MaterialTheme.colorScheme.primary
             )
             PostTitle(post = post)
             AuthorAndReadTime(

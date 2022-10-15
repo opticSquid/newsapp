@@ -19,6 +19,7 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
@@ -116,7 +117,7 @@ fun InterestsScreen(
                     if (!isExpandedScreen) {
                         IconButton(onClick = openDrawer) {
                             Icon(
-                                painter = painterResource(R.drawable.ic_jetnews_logo),
+                                Icons.Filled.Menu,
                                 contentDescription = stringResource(
                                     R.string.cd_open_navigation_drawer
                                 ),

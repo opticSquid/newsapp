@@ -1,19 +1,3 @@
-/*
- * Copyright 2020 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -22,7 +6,7 @@ plugins {
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
-        applicationId = "com.example.jetnews"
+        applicationId = "com.example.newsapp"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
@@ -88,8 +72,8 @@ android {
     packagingOptions {
         // Multiple dependency bring these files in. Exclude them to enable
         // our test APK to build (has no effect on our AARs)
-        excludes += "/META-INF/AL2.0"
-        excludes += "/META-INF/LGPL2.1"
+        resources.excludes += "/META-INF/AL2.0"
+        resources.excludes += "/META-INF/LGPL2.1"
     }
 }
 
@@ -107,20 +91,9 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview:1.3.0-beta03")
     debugImplementation("androidx.compose.ui:ui-test-manifest:1.3.0-beta03")
     debugImplementation("androidx.compose.ui:ui-tooling:1.3.0-beta03")
-//    implementation(libs.androidx.compose.animation)
-//    implementation(libs.androidx.compose.foundation.layout)
-//    implementation(libs.androidx.compose.material.iconsExtended)
-//    implementation(libs.androidx.compose.material3)
-//    implementation(libs.androidx.compose.materialWindow)
-//    implementation(libs.androidx.compose.runtime.livedata)
-//    implementation(libs.androidx.compose.ui.tooling.preview)
-//    debugImplementation(libs.androidx.compose.ui.test.manifest)
-//    debugImplementation(libs.androidx.compose.ui.tooling)
-
     implementation("com.google.accompanist:accompanist-swiperefresh:0.26.4-beta")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.26.4-beta")
-//    implementation(libs.accompanist.swiperefresh)
-//    implementation(libs.accompanist.systemuicontroller)
+    implementation("io.coil-kt:coil-compose:2.2.2")
 
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity.ktx)
@@ -146,10 +119,7 @@ dependencies {
     androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.compose.ui.test)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-    // Robolectric dependencies
-    // TODO: Replace when all samples use the same Material3 & Compose version
     implementation("androidx.compose.ui:ui-test-junit4:1.3.0-beta03")
-//    testImplementation(libs.androidx.compose.ui.test.junit4)
     testImplementation(libs.robolectric)
 }
 

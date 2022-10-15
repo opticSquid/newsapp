@@ -20,40 +20,50 @@ class FakeInterestsRepository : InterestsRepository {
 
     private val topics by lazy {
         listOf(
-            InterestSection("Android", listOf("Jetpack Compose", "Kotlin", "Jetpack")),
+            InterestSection("India", listOf("Corona Virus", "Indian Subcontinent", "Defence")),
             InterestSection(
-                "Programming",
-                listOf("Kotlin", "Declarative UIs", "Java", "Unidirectional Data Flow", "C++")
+                "International News",
+                listOf("Ukraine War", "IMF", "OPEC+", "QUAD", "2023 Recession", "BREXIT", "Credit Sussie")
             ),
-            InterestSection("Technology", listOf("Pixel", "Google"))
+            InterestSection("National News", listOf("Indian Economy", "National Politics", "New Education Policy", "Article 370")),
+            InterestSection(
+                "Science",
+                listOf("Space", "Internet of Things", "Algorithms", "Robotics", "Nano Technology", "ISRO", "DRDO")
+            ),
+            InterestSection(
+                "Sports",
+                listOf("Cricket", "Football", "Chess", "Badminton", "Formula One")
+            )
         )
     }
 
     private val people by lazy {
         listOf(
-            "Kobalt Toral",
-            "K'Kola Uvarek",
-            "Kris Vriloc",
-            "Grala Valdyr",
-            "Kruel Valaxar",
-            "L'Elij Venonn",
-            "Kraag Solazarn",
-            "Tava Targesh",
-            "Kemarrin Muuda"
+            "Narendra Modi",
+            "Sundar Pichai",
+            "Dr.S Jaishankar",
+            "Sai Pallavi",
+            "Mithila Palkar",
+            "Shahrukh Khan",
+            "Dipak Adhikari (Dev)",
+            "Donald Trump",
+            "S. Somnath",
+            "Momota Banerjee",
+            "Gen. Anil Chauhan"
         )
     }
 
     private val publications by lazy {
         listOf(
-            "Kotlin Vibe",
-            "Compose Mix",
-            "Compose Breakdown",
-            "Android Pursue",
-            "Kotlin Watchman",
-            "Jetpack Ark",
-            "Composeshack",
-            "Jetpack Point",
-            "Compose Tribune"
+            "The Hindu",
+            "Washington Post",
+            "News 18",
+            "CrickTracker",
+            "Bleacher Football",
+            "New Scientist",
+            "The Royal Society of London",
+            "Yojna Magazine",
+            "Al Jazeera English"
         )
     }
 
